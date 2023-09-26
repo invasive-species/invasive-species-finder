@@ -1,0 +1,6 @@
+{
+  "appTitle": "invasive_species_finder",
+  "@appTitle": {
+    "description": "The title of the application"
+  }
+}
