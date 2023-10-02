@@ -6,6 +6,7 @@ import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
 
 import 'pages/signin/signin_view.dart';
+import 'pages/signup/signup_view.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -43,6 +44,8 @@ class MyApp extends StatelessWidget {
                 switch (routeSettings.name) {
                   case SigninView.routeName:
                     return const SigninView();
+                  case SignupView.routeName:
+                    return const SignupView();
                   case SettingsView.routeName:
                     return SettingsView(controller: settingsController);
                   case SampleItemDetailsView.routeName:
