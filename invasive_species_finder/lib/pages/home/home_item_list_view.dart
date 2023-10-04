@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 
-import '../settings/settings_view.dart';
-import 'sample_item.dart';
-import 'sample_item_details_view.dart';
+import '../../settings/settings_view.dart';
+import 'home_item.dart';
+import 'home_item_details_view.dart';
 
 /// Displays a list of SampleItems.
-class SampleItemListView extends StatelessWidget {
-  const SampleItemListView({
+class HomeItemListView extends StatelessWidget {
+  const HomeItemListView({
     super.key,
-    this.items = const [SampleItem(1), SampleItem(2), SampleItem(3)],
+    this.items = const [HomeItem(1), HomeItem(2), HomeItem(3)],
   });
 
   static const routeName = '/';
 
-  final List<SampleItem> items;
+  final List<HomeItem> items;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sample Items'),
+        title: const Text('Home Items'),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
@@ -43,16 +43,16 @@ class SampleItemListView extends StatelessWidget {
         // Providing a restorationId allows the ListView to restore the
         // scroll position when a user leaves and returns to the app after it
         // has been killed while running in the background.
-        restorationId: 'sampleItemListView',
+        restorationId: 'homeItemListView',
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
           final item = items[index];
 
           return ListTile(
-              title: Text('SampleItem ${item.id}'),
+              title: Text('HomeItem ${item.id}'),
               leading: const CircleAvatar(
                 // Display the Flutter Logo image asset.
-                foregroundImage: AssetImage('assets/images/flutter_logo.png'),
+                foregroundImage: AssetImage('assets/images/vegetables.png'),
               ),
               onTap: () {
                 // Navigate to the details page. If the user leaves and returns to
@@ -60,7 +60,7 @@ class SampleItemListView extends StatelessWidget {
                 // background, the navigation stack is restored.
                 Navigator.restorablePushNamed(
                   context,
-                  SampleItemDetailsView.routeName,
+                  HomeItemDetailsView.routeName,
                 );
               });
         },
