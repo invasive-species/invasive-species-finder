@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class HomeItemDetailsView extends StatelessWidget {
   const HomeItemDetailsView({super.key});
 
-  static const routeName = '/home';
+  static const routeName = '/home/item_details';
 
   @override
   Widget build(BuildContext context) {
