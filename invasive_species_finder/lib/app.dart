@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'sample_feature/sample_item_details_view.dart';
-import 'sample_feature/sample_item_list_view.dart';
-import 'pages/home/home_item_details_view.dart';
-import 'pages/home/home_item_list_view.dart';
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
 
 import 'pages/signin/signin_view.dart';
 import 'pages/signup/signup_view.dart';
+import 'pages/home/home_view.dart';
+import 'pages/home/home_item_details_view.dart';
+import 'pages/home/home_item_list_view.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -51,6 +50,8 @@ class MyApp extends StatelessWidget {
                     return SettingsView(controller: settingsController);
                   case HomeItemDetailsView.routeName:
                     return const HomeItemDetailsView();
+                  case HomeView.routeName:
+                    return HomeView();
                   default:
                     return const HomeItemListView();
                 }
