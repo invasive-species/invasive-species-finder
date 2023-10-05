@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../settings/settings_view.dart';
 import 'sample_item.dart';
 import 'sample_item_details_view.dart';
+import '../../components/drawer_view.dart';
 
 /// Displays a list of SampleItems.
 class SampleItemListView extends StatelessWidget {
@@ -18,6 +19,7 @@ class SampleItemListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const DrawerView(),
       appBar: AppBar(
         title: const Text('Sample Items'),
         actions: [
@@ -66,6 +68,28 @@ class SampleItemListView extends StatelessWidget {
           );
         },
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed, // needed when more than 3 items
+        items: const [
+          BottomNavigationBarItem(
+            label: 'Sample Item1',
+            icon: Icon(Icons.list),
+          ),
+          BottomNavigationBarItem(
+            label: 'Sample Item2',
+            icon: Icon(Icons.camera_alt_rounded, opticalSize: 10,),
+          ),
+        ],
+        currentIndex: 0,
+        onTap: (index) {
+          if (index == 1) {
+            // Navigate to the settings page. If the user leaves and returns
+            // to the app after it has been killed while running in the
+            // background, the navigation stack is restored.
+            Navigator.restorablePushNamed(context, SettingsView.routeName);
+          }
+        },
+      )
     );
   }
 }
