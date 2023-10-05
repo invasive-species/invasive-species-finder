@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 class HomeItemDetailsView extends StatelessWidget {
   const HomeItemDetailsView({super.key});
 
-  static const routeName = '/home';
+  static const routeName = '/home_item';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('home'),
+        title: const Text('Home Details'),
       ),
       body: const Center(
         child: Text('More Information Here'),

@@ -4,7 +4,7 @@ import '../../settings/settings_view.dart';
 import 'home_item.dart';
 import 'home_item_details_view.dart';
 
-/// Displays a list of SampleItems.
+/// Displays a list of HomeItems.
 class HomeItemListView extends StatelessWidget {
   const HomeItemListView({
     super.key,
@@ -43,7 +43,7 @@ class HomeItemListView extends StatelessWidget {
         // Providing a restorationId allows the ListView to restore the
         // scroll position when a user leaves and returns to the app after it
         // has been killed while running in the background.
-        restorationId: 'homeItemListView',
+        restorationId: 'HomeItemListView',
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
           final item = items[index];
