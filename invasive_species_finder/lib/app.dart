@@ -8,6 +8,8 @@ import 'pages/signup/signup_view.dart';
 import 'pages/home/home_view.dart';
 import 'pages/home/home_item_details_view.dart';
 import 'pages/home/home_item_list_view.dart';
+import 'pages/camera/camera_view.dart';
+import 'pages/messages/messages.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -46,6 +48,8 @@ class MyApp extends StatelessWidget {
                     return const SigninView();
                   case SignupView.routeName:
                     return const SignupView();
+                  case CameraPage.routeName:
+                    return const CameraPage();
                   case SettingsView.routeName:
                     return SettingsView(controller: settingsController);
                   case HomeItemDetailsView.routeName:
