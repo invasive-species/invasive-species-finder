@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'sample_feature/sample_item_details_view.dart';
-import 'sample_feature/sample_item_list_view.dart';
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
 
 import 'pages/signin/signin_view.dart';
 import 'pages/signup/signup_view.dart';
+import 'pages/home/home_view.dart';
+import 'pages/home/home_item_details_view.dart';
+import 'pages/home/home_item_list_view.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -27,7 +28,6 @@ class MyApp extends StatelessWidget {
       listenable: settingsController,
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
-
           // Define a light and dark color theme. Then, read the user's
           // preferred ThemeMode (light, dark, or system default) from the
           // SettingsController to display the correct theme.
@@ -48,10 +48,12 @@ class MyApp extends StatelessWidget {
                     return const SignupView();
                   case SettingsView.routeName:
                     return SettingsView(controller: settingsController);
-                  case SampleItemDetailsView.routeName:
-                    return const SampleItemDetailsView();
+                  case HomeItemDetailsView.routeName:
+                    return const HomeItemDetailsView();
+                  case HomeView.routeName:
+                    return HomeView();
                   default:
-                    return const SampleItemListView();
+                    return const HomeItemListView();
                 }
               },
             );

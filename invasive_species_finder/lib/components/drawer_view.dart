@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../pages/home/home_view.dart';
+
 
 class DrawerView extends StatelessWidget {
   const DrawerView({Key? key}) : super(key: key);
@@ -22,9 +24,9 @@ class DrawerView extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.home),
             title: const Text('Home'),
-            //onTap: () {
-              //Navigator.pushReplacementNamed(context, HomeView.routeName);
-            //},
+            onTap: () {
+              Navigator.pushReplacementNamed(context, HomeView.routeName);
+            },
           ),
           ListTile(
             leading: const Icon(Icons.logout),
