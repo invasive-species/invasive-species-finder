@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../sample_feature/sample_item.dart';
+import 'list_category_item.dart';
+import 'list_category_action.dart';
 
 /// Displays a list of Categories.
 class ListCategoryView extends StatelessWidget {
@@ -17,83 +19,32 @@ class ListCategoryView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: ListView(shrinkWrap: true, children: [
-        SizedBox(
-          height: 200,
-          child: Card(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: Image.asset(
-                  'assets/images/animal.png',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'Animals',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ],
-          )),
+        GestureDetector(
+          onTap: () {
+            navigateToDetailPage(context, "Animals");
+          },
+          child: const ListCategoryItem(
+            imagePath: 'assets/images/animal.png',
+            title: 'Animals',
+          ),
         ),
-        SizedBox(
-          height: 200,
-          child: Card(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: Image.asset(
-                  'assets/images/plant.png',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'Plants',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ],
-          )),
+        GestureDetector(
+          onTap: () {
+            navigateToDetailPage(context, "Plants");
+          },
+          child: const ListCategoryItem(
+            imagePath: 'assets/images/plant.png',
+            title: 'Plants',
+          ),
         ),
-        SizedBox(
-          height: 200,
-          child: Card(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: Image.asset(
-                  'assets/images/insect.png',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'Insects',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ],
-          )),
+        GestureDetector(
+          onTap: () {
+            navigateToDetailPage(context, "Insects");
+          },
+          child: const ListCategoryItem(
+            imagePath: 'assets/images/insect.png',
+            title: 'Insects',
+          ),
         ),
       ]),
     );
