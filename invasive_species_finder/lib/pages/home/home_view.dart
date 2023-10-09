@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../components/drawer_view.dart';
 import '../../settings/settings_view.dart';
+import '../list/list_category_view.dart';
 
 
 /// Top-level Layout for all of the "Home" related
@@ -17,7 +18,7 @@ class HomeView extends StatefulWidget {
   final Map pages = {
     0: {
       'title': const Text('Lists'),
-      'body': const Text('Place holder'),
+      'body': const ListCategoryView(),
       'navItem': const BottomNavigationBarItem(
         label: 'Lists',
         icon: Icon(Icons.list),
