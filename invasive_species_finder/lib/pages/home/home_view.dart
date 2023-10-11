@@ -79,7 +79,7 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       drawer: const DrawerView(),
       appBar: AppBar(
-        title: const Text('Home'),
+        title: widget.pages[_selectedIndex]['title'],
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
