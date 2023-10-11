@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:invasive_species_finder/pages/posts/posts_view.dart';
 
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
@@ -53,6 +54,8 @@ class MyApp extends StatelessWidget {
                     return const HomeItemDetailsView();
                   case HomeView.routeName:
                     return HomeView();
+                    case PostsView.routeName:
+                    return const PostsView();
                   case CameraPage.routeName:
                     return const CameraPage();
                   default:
