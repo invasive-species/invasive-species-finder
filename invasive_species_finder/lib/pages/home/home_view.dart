@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../pages/forum/forum_view.dart';
 import '../../components/drawer_view.dart';
 import '../../settings/settings_view.dart';
 import '../list/list_category_view.dart';
@@ -26,7 +27,7 @@ class HomeView extends StatefulWidget {
     },
     1: {
       'title': const Text('Forum'),
-      'body': const Text('Place holder'),
+      'body': const ForumView(),
       'navItem': const BottomNavigationBarItem(
         label: 'Forum',
         icon: Icon(Icons.forum),
