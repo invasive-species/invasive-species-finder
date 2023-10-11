@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../data_model/forum_post_db.dart';
-import '../../data_model/user_db.dart';
 import '../../components/user_avatar.dart';
 
 class PostCardView extends StatelessWidget {

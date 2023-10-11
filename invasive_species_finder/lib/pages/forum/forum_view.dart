@@ -19,7 +19,7 @@ class ForumView extends StatelessWidget {
         child: (postIDs.isEmpty)
             ? const Align(
             alignment: Alignment.center,
-            child: Text("No news is good news!"))
+            child: Text("No forum posts yet!"))
             : ListView(children: [
           ...postIDs
               .map((postID) => ForumItemView(postID: postID))
