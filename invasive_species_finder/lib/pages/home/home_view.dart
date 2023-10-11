@@ -5,6 +5,7 @@ import '../../components/drawer_view.dart';
 import '../../settings/settings_view.dart';
 import '../list/list_category_view.dart';
 import '../camera/camera_page.dart';
+import '../../pages/messages/messages_view.dart';
 
 /// Top-level Layout for all of the "Home" related
 class HomeView extends StatefulWidget {
@@ -43,7 +44,7 @@ class HomeView extends StatefulWidget {
     },
     3: {
       'title': const Text('Messages'),
-      'body': const Text('Place holder'),
+      'body': const MessagesView(),
       'navItem': const BottomNavigationBarItem(
         label: 'Messages',
         icon: Icon(Icons.message),
