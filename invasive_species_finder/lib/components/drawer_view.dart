@@ -6,7 +6,6 @@ import '../components/user_avatar.dart';
 import '../data_model/user_db.dart';
 
 
-
 class DrawerView extends StatelessWidget {
   const DrawerView({Key? key}) : super(key: key);
 
