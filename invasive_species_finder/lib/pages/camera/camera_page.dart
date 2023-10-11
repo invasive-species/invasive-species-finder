@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:io' as io;
 
 class CameraPage extends StatefulWidget {
   const CameraPage({Key? key}) : super(key: key);
@@ -15,6 +16,7 @@ class _CameraPageState extends State<CameraPage> {
   late List<CameraDescription> cameras;
   late CameraController controller;
   bool isCameraReady = false;
+  XFile? image;
 
   @override
   void initState() {
@@ -33,13 +35,18 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   Future<void> takePicture() async {
+    if (!isCameraReady) {
+      // Camera is not initialized yet, so display an error message.
+      Text("Camera is not ready yet!",
+          style: Theme.of(context).textTheme.titleLarge);
+      return;
+    }
+
     if (!controller.value.isTakingPicture) {
       final XFile image = await controller.takePicture();
       // Handle the captured image as needed (e.g., display it or save it).
     }
   }
-
-  XFile? image;
 
   Future<void> pickImageFromGallery() async {
     final XFile? selectedImage =
@@ -68,11 +75,14 @@ class _CameraPageState extends State<CameraPage> {
             const SizedBox(height: 40.0),
             Column(
               children: <Widget>[
-                // You can replace this with your own image asset.
-                Image.asset('assets/images/camera_icon.png', width: 200),
+                if (image != null)
+                  Image.memory(io.File(image!.path).readAsBytesSync(),
+                      width: 400, height: 400)
+                else
+                  Image.asset('assets/images/camera_icon.png', width: 200),
                 const SizedBox(height: 16.0),
                 Text(
-                  "Camera and Gallery",
+                  "TAKE A PICTURE OR UPLOAD",
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ],

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../components/drawer_view.dart';
 import '../../settings/settings_view.dart';
 import '../list/list_category_view.dart';
-
+import '../camera/camera_page.dart';
 
 /// Top-level Layout for all of the "Home" related
 class HomeView extends StatefulWidget {
@@ -34,7 +34,7 @@ class HomeView extends StatefulWidget {
     },
     2: {
       'title': const Text('Camera'),
-      'body': const Text('Place holder'),
+      'body': const CameraPage(),
       'navItem': const BottomNavigationBarItem(
         label: 'Camera',
         icon: Icon(Icons.camera_alt),
