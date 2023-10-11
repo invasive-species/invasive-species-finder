@@ -8,6 +8,7 @@ import 'pages/signup/signup_view.dart';
 import 'pages/home/home_view.dart';
 import 'pages/home/home_item_details_view.dart';
 import 'pages/home/home_item_list_view.dart';
+import 'pages/camera/camera_page.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -52,6 +53,8 @@ class MyApp extends StatelessWidget {
                     return const HomeItemDetailsView();
                   case HomeView.routeName:
                     return HomeView();
+                  case CameraPage.routeName:
+                    return const CameraPage();
                   default:
                     return const HomeItemListView();
                 }
