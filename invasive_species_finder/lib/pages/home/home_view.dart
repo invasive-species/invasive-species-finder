@@ -5,6 +5,7 @@ import '../../components/drawer_view.dart';
 import '../../settings/settings_view.dart';
 import '../list/list_category_view.dart';
 import '../camera/camera_page.dart';
+import '../../pages/map/map_page.dart';
 
 /// Top-level Layout for all of the "Home" related
 class HomeView extends StatefulWidget {
@@ -51,7 +52,7 @@ class HomeView extends StatefulWidget {
     },
     4: {
       'title': const Text('Map'),
-      'body': const Text('Place holder'),
+      'body': const MapPage(),
       'navItem': const BottomNavigationBarItem(
         label: 'Map',
         icon: Icon(Icons.map),

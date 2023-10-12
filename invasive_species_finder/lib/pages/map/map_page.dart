@@ -1,71 +1,86 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:flutter_map/plugin_api.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-void main() {
-  runApp(MyApp());
+class MapPage extends StatefulWidget {
+  const MapPage({
+    super.key,
+  });
+
+  final String title = 'Map';
+
+  @override
+  _MapPageState createState() => _MapPageState();
 }
 
-class MyApp extends StatelessWidget {
+class _MapPageState extends State<MapPage> {
+  final Completer<GoogleMapController> _controller = Completer();
+  late GoogleMapController _googleMapController;
+  late GeolocatorPlatform geolocator;
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MapView(),
-    );
+  void initState() {
+    super.initState();
+    _requestPermission(context);
   }
-}
 
-class MapView extends StatefulWidget {
-  @override
-  _MapViewState createState() => _MapViewState();
-}
+  Future<void> _requestPermission(BuildContext context) async {
+    var status = await Permission.location.request();
+    if (status.isGranted) {
+      _getUserLocation();
+    } else if (status.isDenied) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Location Permission'),
+              content: const Text('Please enable location services to use this feature.'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('OK'),
+                ),
+              ],
+            );}
+      );
+    } else if (status.isPermanentlyDenied) {
+      openAppSettings();
+    }
+  }
 
-class _MapViewState extends State<MapView> {
-  final MapController mapController = MapController();
-  final List<LatLng> markers = [
-    LatLng(0, 0), // Example marker at (0, 0)
-    LatLng(51.5074, -0.1278), // London
-    LatLng(40.7128, -74.0060), // New York
-  ];
+  Future<void> _getUserLocation() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high
+      );
+
+      _googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: LatLng(position.latitude, position.longitude),
+            zoom: 10.0,
+          ),
+        ));
+
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('World Map View'),
-      ),
-      body: FlutterMap(
-        mapController: mapController,
-        options: MapOptions(
-          center: LatLng(0, 0), // Center of the map
-          zoom: 2, // Initial zoom level
-          onTap: (_) {
-            // Handle tap events on the map
-          },
+      body: GoogleMap(
+        initialCameraPosition: const CameraPosition(
+          target: LatLng(21.4389, -158.0001), // Initial map location to Oahu, Hawaii
+          zoom: 10.0,
         ),
-        layers: [
-          TileLayerOptions(
-            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            subdomains: ['a', 'b', 'c'],
-          ),
-          MarkerLayerOptions(
-            markers: markers.map((latLng) {
-              return Marker(
-                width: 80.0,
-                height: 80.0,
-                point: latLng,
-                builder: (ctx) {
-                  return Icon(
-                    Icons.location_pin,
-                    size: 40,
-                    color: Colors.blue,
-                  );
-                },
-              );
-            }).toList(),
-          ),
-        ],
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+          _googleMapController = controller;
+        },
       ),
     );
   }
