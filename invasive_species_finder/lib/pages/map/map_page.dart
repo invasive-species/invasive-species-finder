@@ -30,7 +30,7 @@ class _MapPageState extends State<MapPage> {
   Future<void> _requestPermission(BuildContext context) async {
     var status = await Permission.location.request();
     if (status.isGranted) {
-      _getUserLocation();
+
     } else if (status.isDenied) {
       showDialog(
           context: context,
@@ -80,6 +80,7 @@ class _MapPageState extends State<MapPage> {
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
           _googleMapController = controller;
+          _getUserLocation();
         },
       ),
     );
