@@ -11,6 +11,7 @@ class MapPage extends StatefulWidget {
   });
 
   final String title = 'Map';
+  static const routeName = '/map';
 
   @override
   _MapPageState createState() => _MapPageState();

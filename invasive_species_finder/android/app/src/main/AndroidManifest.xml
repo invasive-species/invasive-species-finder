@@ -8,6 +8,8 @@
 
     <application
         android:label="invasive_species_finder"
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher"
         >
         <activity
             android:name=".MainActivity"
