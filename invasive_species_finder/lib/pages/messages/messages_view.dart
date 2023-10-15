@@ -11,6 +11,7 @@ class MessagesView extends StatelessWidget {
   });
 
   final String title = 'Messages';
+  static const routeName = '/messages';
 
   @override
   Widget build(BuildContext context) {

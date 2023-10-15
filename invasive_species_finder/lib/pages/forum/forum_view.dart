@@ -10,6 +10,7 @@ class ForumView extends StatelessWidget {
   });
 
   final String title = 'Forum Posts';
+  static const routeName = '/forum';
 
   @override
   Widget build(BuildContext context) {
