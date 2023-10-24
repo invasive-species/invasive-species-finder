@@ -1,4 +1,5 @@
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:invasive_species_finder/pages/forum/forum_view.dart';
 
 import '../pages/home/home_view.dart';
@@ -7,6 +8,8 @@ import '../pages/posts/posts_view.dart';
 /// Provides a help string (if available) for each page.
 /// Pages are identified by their routeName because that's guaranteed to be unique.
 class HelpDB {
+  HelpDB(this.ref);
+  final ProviderRef<HelpDB> ref;
   final Map<String, String> _helpMap = {
     HomeView.routeName: '''
 # About the Home Page
@@ -34,5 +37,6 @@ list of all posts of the user
   }
 }
 
-/// The singleton instance providing access to all user data for clients.
-HelpDB helpDB = HelpDB();
+final helpDBProvider = Provider<HelpDB>((ref) {
+  return HelpDB(ref);
+});

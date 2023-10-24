@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data_model/help_db.dart';
 
-class HelpViewLocal extends StatelessWidget {
+class HelpViewLocal extends ConsumerWidget {
   const HelpViewLocal({
     super.key,
   });
@@ -10,7 +11,8 @@ class HelpViewLocal extends StatelessWidget {
   static const routeName = '/help_local';
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final HelpDB helpDB = ref.watch(helpDBProvider);
     String routeName = ModalRoute.of(context)!.settings.arguments as String;
     String help = helpDB.getHelpString(routeName);
     return Scaffold(

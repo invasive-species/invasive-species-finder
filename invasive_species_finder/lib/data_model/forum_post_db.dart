@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// The data associated with posts.
 class ForumPostData {
@@ -25,6 +26,9 @@ class ForumPostData {
 
 /// Provides access to and operations on all defined users.
 class ForumPostDB {
+  ForumPostDB(this.ref);
+
+  final ProviderRef<ForumPostDB> ref;
   final List<ForumPostData> _posts = [
     ForumPostData(
         id: 'forum-post-001',
@@ -97,4 +101,6 @@ class ForumPostDB {
   }
 }
 
-ForumPostDB postsDB = ForumPostDB();
+final forumPostDBProvider = Provider<ForumPostDB>((ref) {
+  return ForumPostDB(ref);
+});

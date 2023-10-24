@@ -1,4 +1,6 @@
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 /// The data associated with messages.
 class MessageData {
   MessageData({
@@ -16,6 +18,8 @@ class MessageData {
 
 /// Provides access to and operations on all defined users.
 class MessageDB {
+  MessageDB(this.ref);
+  final ProviderRef<MessageDB> ref;
   final List<MessageData> _messages = [
     MessageData(
       id: 'message-001',
@@ -70,4 +74,6 @@ class MessageDB {
   }
 }
 
-MessageDB messageDB = MessageDB();
+final messageDBProvider = Provider<MessageDB>((ref) {
+  return MessageDB(ref);
+});

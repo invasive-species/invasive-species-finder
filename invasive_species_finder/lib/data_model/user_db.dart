@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'location_db.dart';
 import 'forum_post_db.dart';
 import 'message_db.dart';
@@ -22,6 +24,9 @@ class UserData {
 
 /// Provides access to and operations on all defined users.
 class UserDB {
+  UserDB(this.ref);
+
+  final ProviderRef<UserDB> ref;
   final List<UserData> _users = [
     UserData(
         id: 'user-001',
@@ -70,13 +75,17 @@ class UserDB {
   // First, get all of the chapterIDs that this [userID] is associated with.
   // Then build the set of all userIDs associated with the chapterIDs.
   List<String> getAssociatedPostIDs(String userID) {
+    final postsDB = ref.read(forumPostDBProvider);
     List<String> postsIDs = postsDB.getAssociatedPostIDs(userID);
     return postsIDs;
   }
 }
 
-/// The singleton instance providing access to all user data for clients.
-UserDB userDB = UserDB();
+final userDBProvider = Provider<UserDB>((ref) {
+  return UserDB(ref);
+});
 
-/// The currently logged in user.
-String currentUserID = 'user-001';
+
+final currentUserIDProvider = StateProvider<String>((ref) {
+  return 'user-001';
+});

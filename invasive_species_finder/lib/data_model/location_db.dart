@@ -1,4 +1,6 @@
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 /// The data associated with locations.
 class LocationData {
   LocationData({
@@ -16,6 +18,8 @@ class LocationData {
 
 /// Provides access to and operations on all defined users.
 class LocationDB {
+  LocationDB(this.ref);
+  final ProviderRef<LocationDB> ref;
   final List<LocationData> _locations = [
     LocationData(
         id: 'location-001',
@@ -70,4 +74,6 @@ class LocationDB {
   }
 }
 
-LocationDB locationDB = LocationDB();
+final locationDBProvider = Provider<LocationDB>((ref) {
+  return LocationDB(ref);
+});

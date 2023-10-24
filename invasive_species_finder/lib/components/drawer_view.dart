@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:invasive_species_finder/pages/posts/posts_view.dart';
 
 import '../pages/home/home_view.dart';
@@ -6,11 +7,13 @@ import '../components/user_avatar.dart';
 import '../data_model/user_db.dart';
 
 
-class DrawerView extends StatelessWidget {
+class DrawerView extends ConsumerWidget {
   const DrawerView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final UserDB userDB = ref.watch(userDBProvider);
+    final String currentUserID = ref.watch(currentUserIDProvider);
     UserData user = userDB.getUser(currentUserID);
     return Drawer(
       child: ListView(

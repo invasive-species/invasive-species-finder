@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'messages_item_view.dart';
 import '../../data_model/user_db.dart';
 import '../../data_model/message_db.dart';
 
 /// Displays a list of Gardens.
-class MessagesView extends StatelessWidget {
+class MessagesView extends ConsumerWidget {
   const MessagesView({
     super.key,
   });
@@ -14,7 +15,9 @@ class MessagesView extends StatelessWidget {
   static const routeName = '/messages';
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String currentUserID = ref.watch(currentUserIDProvider);
+    final MessageDB messageDB = ref.watch(messageDBProvider);
     List<String> messageIDs = messageDB.getAssociatedMessageIDs(currentUserID);
     return Padding(
         padding: const EdgeInsets.only(top: 10.0),
