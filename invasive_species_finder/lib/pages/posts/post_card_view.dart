@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data_model/forum_post_db.dart';
 import '../../components/user_avatar.dart';
 
-class PostCardView extends StatelessWidget {
+class PostCardView extends ConsumerWidget {
   const PostCardView({Key? key, required this.postID}) : super(key: key);
 
   final String postID;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ForumPostDB postsDB = ref.watch(forumPostDBProvider);
     ForumPostData post = postsDB
         .getPosts(postID);
 

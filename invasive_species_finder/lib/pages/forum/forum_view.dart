@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:invasive_species_finder/data_model/forum_post_db.dart';
 
 import 'forum_item_view.dart';
 
 /// Displays a list of Gardens.
-class ForumView extends StatelessWidget {
+class ForumView extends ConsumerWidget {
   const ForumView({
     super.key,
   });
@@ -13,7 +14,8 @@ class ForumView extends StatelessWidget {
   static const routeName = '/forum';
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ForumPostDB postsDB = ref.watch(forumPostDBProvider);
     List<String> postIDs = postsDB.getPostIDs();
     return Padding(
         padding: const EdgeInsets.only(top: 10.0),

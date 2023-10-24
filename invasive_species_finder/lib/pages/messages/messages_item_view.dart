@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data_model/message_db.dart';
 import '../../components/user_avatar.dart';
 import '../../data_model/user_db.dart';
 
-class MessageItemView extends StatelessWidget {
+class MessageItemView extends ConsumerWidget {
   const MessageItemView({Key? key, required this.messageID}) : super(key: key);
 
   final String messageID;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final MessageDB messageDB = ref.watch(messageDBProvider);
     MessageData data = messageDB.getMessages(messageID);
+    final UserDB userDB = ref.watch(userDBProvider);
     String replierName = userDB.getUser(data.replierId).name;
 
     return Padding(

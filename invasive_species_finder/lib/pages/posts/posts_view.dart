@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:invasive_species_finder/data_model/forum_post_db.dart';
 
 import '../../components/drawer_view.dart';
@@ -34,7 +35,7 @@ Maybe you can request "messaging privilege" or something from another member, so
 ''';
 
 /// Displays User information.
-class PostsView extends StatelessWidget {
+class PostsView extends ConsumerWidget {
   const PostsView({
     super.key,
   });
@@ -42,7 +43,9 @@ class PostsView extends StatelessWidget {
   static const routeName = '/posts';
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String currentUserID = ref.watch(currentUserIDProvider);
+    final ForumPostDB postsDB = ref.watch(forumPostDBProvider);
     return Scaffold(
       drawer: const DrawerView(),
       appBar: AppBar(

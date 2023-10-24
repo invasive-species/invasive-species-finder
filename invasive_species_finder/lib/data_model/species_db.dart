@@ -1,4 +1,6 @@
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 /// The data associated with each species.
 class SpeciesData {
   SpeciesData({
@@ -22,6 +24,8 @@ class SpeciesData {
 
 /// Provides access to and operations on all defined Gardens.
 class SpeciesDB {
+  SpeciesDB(this.ref);
+  final ProviderRef<SpeciesDB> ref;
   final List<SpeciesData> _species = [
     SpeciesData(
         id: 'species-001',
@@ -86,5 +90,6 @@ class SpeciesDB {
   }
 }
 
-/// The singleton instance of a gardenDB used by clients to access garden data.
-SpeciesDB speciesDB = SpeciesDB();
+final speciesDBProvider = Provider<SpeciesDB>((ref) {
+  return SpeciesDB(ref);
+});
