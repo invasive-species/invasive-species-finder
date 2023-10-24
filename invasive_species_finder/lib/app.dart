@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:invasive_species_finder/pages/forum/add_post.dart';
+import 'package:invasive_species_finder/pages/forum/edit_post_view.dart';
 import 'package:invasive_species_finder/pages/forum/forum_view.dart';
 import 'package:invasive_species_finder/pages/help/help_view.dart';
 import 'package:invasive_species_finder/pages/help/help_view_local.dart';
@@ -63,6 +65,10 @@ class MyApp extends ConsumerWidget {
                   return const ForumView();
               case MessagesView.routeName:
                   return const MessagesView();
+              case AddPost.routeName:
+                  return AddPost();
+              case EditPostView.routeName:
+                  return EditPostView();
               default:
                 return const PageNotFoundView();
             }

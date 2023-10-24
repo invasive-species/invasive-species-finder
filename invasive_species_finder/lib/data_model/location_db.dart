@@ -67,6 +67,14 @@ class LocationDB {
     return _locations.firstWhere((data) => data.id == locationID);
   }
 
+  List<String> getLocationNames() {
+    return _locations.map((data) => data.name).toList();
+  }
+
+  String getLocationIDFromName(String name) {
+    return _locations.firstWhere((data) => data.name == name).id;
+  }
+
   List<String> getAssociatedLocationIDs(String userID) {
     return getLocationIDs()
         .where((locationID) => getLocations(locationID).userID == userID)

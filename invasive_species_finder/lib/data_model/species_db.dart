@@ -64,6 +64,18 @@ class SpeciesDB {
     return _species.map((data) => data.id).toList();
   }
 
+  String getSpeciesName(String speciesID) {
+    return _species.firstWhere((data) => data.id == speciesID).name;
+  }
+
+  String getSpeciesIDFromName(String speciesName) {
+    return _species.firstWhere((data) => data.name == speciesName).id;
+  }
+
+  List<String> getSpeciesNames() {
+    return _species.map((data) => data.name).toList();
+  }
+
   List<String> getAssociatedSpeciesIDs({String? postID, String? locationID}) {
     if (postID != null) {
       return getSpeciesIDs()
