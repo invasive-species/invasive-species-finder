@@ -7,17 +7,17 @@ import 'package:permission_handler/permission_handler.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   final String title = 'Map';
   static const routeName = '/map';
 
   @override
-  _MapPageState createState() => _MapPageState();
+  MapPageState createState() => MapPageState();
 }
 
-class _MapPageState extends State<MapPage> {
+class MapPageState extends State<MapPage> {
   final Completer<GoogleMapController> _controller = Completer();
   late GoogleMapController _googleMapController;
   late GeolocatorPlatform geolocator;
@@ -33,23 +33,27 @@ class _MapPageState extends State<MapPage> {
     if (status.isGranted) {
 
     } else if (status.isDenied) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text('Location Permission'),
-              content: const Text('Please enable location services to use this feature.'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('OK'),
-                ),
-              ],
-            );}
-      );
+      _showLocationPermissionDialog(context);
     } else if (status.isPermanentlyDenied) {
       openAppSettings();
     }
+  }
+
+  void _showLocationPermissionDialog(BuildContext context){
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Location Permission'),
+            content: const Text('Please enable location services to use this feature.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('OK'),
+              ),
+            ],
+          );}
+    );
   }
 
   Future<void> _getUserLocation() async {
