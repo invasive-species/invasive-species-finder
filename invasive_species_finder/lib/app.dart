@@ -44,7 +44,7 @@ class MyApp extends ConsumerWidget {
           builder: (BuildContext context) {
             switch (routeSettings.name) {
               case SigninView.routeName:
-                return const SigninView();
+                return SigninView();
               case SignupView.routeName:
                 return const SignupView();
               case SettingsView.routeName:

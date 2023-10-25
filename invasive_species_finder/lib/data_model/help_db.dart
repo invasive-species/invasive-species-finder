@@ -1,6 +1,5 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invasive_species_finder/pages/forum/forum_view.dart';
 
 import '../pages/home/home_view.dart';
 import '../pages/posts/posts_view.dart';
