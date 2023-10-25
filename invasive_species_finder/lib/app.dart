@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:invasive_species_finder/pages/camera/take_picture_page.dart';
 import 'package:invasive_species_finder/pages/forum/add_post.dart';
 import 'package:invasive_species_finder/pages/forum/edit_post_view.dart';
 import 'package:invasive_species_finder/pages/forum/forum_view.dart';
@@ -59,16 +60,18 @@ class MyApp extends ConsumerWidget {
                 return const PostsView();
               case CameraPage.routeName:
                 return const CameraPage();
+              case TakePicturePage.routeName:
+                return const TakePicturePage();
               case MapPage.routeName:
-                  return const MapPage();
+                return const MapPage();
               case ForumView.routeName:
-                  return const ForumView();
+                return const ForumView();
               case MessagesView.routeName:
-                  return const MessagesView();
+                return const MessagesView();
               case AddPost.routeName:
-                  return AddPost();
+                return AddPost();
               case EditPostView.routeName:
-                  return EditPostView();
+                return EditPostView();
               default:
                 return const PageNotFoundView();
             }

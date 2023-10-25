@@ -1,71 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io' as io;
+import 'package:invasive_species_finder/pages/camera/take_picture_page.dart';
 
-class CameraPage extends StatefulWidget {
+class CameraPage extends StatelessWidget {
   const CameraPage({Key? key}) : super(key: key);
 
   static const routeName = '/camera';
 
-  @override
-  _CameraPageState createState() => _CameraPageState();
-}
-
-class _CameraPageState extends State<CameraPage> {
-  late List<CameraDescription> cameras;
-  late CameraController controller;
-  bool isCameraReady = false;
-  XFile? image;
-
-  @override
-  void initState() {
-    super.initState();
-    initializeCamera();
-  }
-
-  Future<void> initializeCamera() async {
-    cameras = await availableCameras();
-    controller = CameraController(cameras[0], ResolutionPreset.medium);
-    await controller.initialize();
-    if (!mounted) return;
-    setState(() {
-      isCameraReady = true;
-    });
-  }
-
-  Future<void> takePicture() async {
-    if (!isCameraReady) {
-      // Camera is not initialized yet, so display an error message.
-      Text("Camera is not ready yet!",
-          style: Theme.of(context).textTheme.titleLarge);
-      return;
-    }
-
-    if (!controller.value.isTakingPicture) {
-      final XFile image = await controller.takePicture();
-      // Handle the captured image as needed (e.g., display it or save it).
-      setState(() {
-        this.image = image;
-      });
-    }
-  }
-
   Future<void> pickImageFromGallery() async {
-    final XFile? selectedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    final selectedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (selectedImage != null) {
-      setState(() {
-        image = selectedImage;
-      });
-      // Handle the selected image as needed (e.g., display it or save it).
+      // Handle the selected image as needed
     }
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
   }
 
   @override
@@ -78,11 +24,7 @@ class _CameraPageState extends State<CameraPage> {
             const SizedBox(height: 40.0),
             Column(
               children: <Widget>[
-                if (image != null)
-                  Image.memory(io.File(image!.path).readAsBytesSync(),
-                      width: 400, height: 400)
-                else
-                  Image.asset('assets/images/camera_icon.png', width: 200),
+                Image.asset('assets/images/camera_icon.png', width: 200),
                 const SizedBox(height: 16.0),
                 Text(
                   "TAKE A PICTURE OR UPLOAD",
@@ -92,7 +34,12 @@ class _CameraPageState extends State<CameraPage> {
             ),
             const SizedBox(height: 40.0),
             ElevatedButton(
-              onPressed: takePicture,
+              onPressed: () {
+                Navigator.restorablePushNamed(
+                  context,
+                  TakePicturePage.routeName,
+                );
+              },
               child: const Text('Take Picture'),
             ),
             const SizedBox(height: 12.0),
