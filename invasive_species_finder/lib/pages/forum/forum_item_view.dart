@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:invasive_species_finder/components/user_labeled_avatar.dart';
-import 'package:invasive_species_finder/data_model/user_db.dart';
 
 import '../../../data_model/forum_post_db.dart';
 import '../../data_model/location_db.dart';
 import '../../data_model/species_db.dart';
 import 'edit_post_view.dart';
-import 'forum_item_actions.dart';
 
 enum PostActions { edit, delete }
 
@@ -22,7 +20,6 @@ class ForumItemView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final UserDB userDB = ref.watch(userDBProvider);
     final ForumPostDB postsDB = ref.watch(forumPostDBProvider);
     final LocationDB locationDB = ref.watch(locationDBProvider);
     final SpeciesDB speciesDB = ref.watch(speciesDBProvider);
@@ -37,7 +34,6 @@ class ForumItemView extends ConsumerWidget {
     String speciesID = data.speciesID;
 
     String locationName = locationDB.getLocations(locationID).name;
-    String userName = userDB.getUser(userID).name;
     String speciesName = speciesDB.getSpecies(speciesID).name;
     AssetImage image = AssetImage(imagePath);
     return Card(

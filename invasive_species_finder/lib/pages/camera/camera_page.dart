@@ -45,6 +45,9 @@ class _CameraPageState extends State<CameraPage> {
     if (!controller.value.isTakingPicture) {
       final XFile image = await controller.takePicture();
       // Handle the captured image as needed (e.g., display it or save it).
+      setState(() {
+        this.image = image;
+      });
     }
   }
 

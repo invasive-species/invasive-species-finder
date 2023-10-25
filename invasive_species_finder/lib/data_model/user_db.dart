@@ -1,8 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'location_db.dart';
 import 'forum_post_db.dart';
-import 'message_db.dart';
 
 /// The data associated with users.
 class UserData {
@@ -67,8 +65,23 @@ class UserDB {
     return _users.firstWhere((userData) => userData.id == userID);
   }
 
+  String getUserID(String emailOrUsername) {
+    return (emailOrUsername.startsWith('@'))
+        ? _users.firstWhere((userData) => userData.username == emailOrUsername).id
+        : _users.firstWhere((userData) => userData.email == emailOrUsername).id;
+  }
+
   List<UserData> getUsers(List<String> userIDs) {
     return _users.where((userData) => userIDs.contains(userData.id)).toList();
+  }
+
+  List<String> getAllEmails() {
+    return _users.map((userData) => userData.email).toList();
+  }
+
+  bool isUserEmail(String email) {
+    List<String> emails = _users.map((userData) => userData.email).toList();
+    return emails.contains(email);
   }
 
   // Return the userIDs of users who are in the same Chapter(s) as [userID].
