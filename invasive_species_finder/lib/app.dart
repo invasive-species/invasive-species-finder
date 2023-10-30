@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invasive_species_finder/pages/camera/take_picture_page.dart';
-import 'package:invasive_species_finder/pages/forum/add_post.dart';
-import 'package:invasive_species_finder/pages/forum/edit_post_view.dart';
-import 'package:invasive_species_finder/pages/forum/forum_view.dart';
-import 'package:invasive_species_finder/pages/help/help_view.dart';
-import 'package:invasive_species_finder/pages/help/help_view_local.dart';
-import 'package:invasive_species_finder/pages/map/map_page.dart';
-import 'package:invasive_species_finder/pages/messages/messages_view.dart';
-import 'package:invasive_species_finder/pages/page_not_found/page_not_found_view.dart';
-import 'package:invasive_species_finder/pages/posts/posts_view.dart';
+import 'package:invasive_species_finder/features/camera/presentation/take_picture_page.dart';
+import 'package:invasive_species_finder/features/forum/presentation/add_post.dart';
+import 'package:invasive_species_finder/features/forum/presentation/edit_post_view.dart';
+import 'package:invasive_species_finder/features/forum/presentation/forum_view.dart';
+import 'package:invasive_species_finder/features/help/presentation/help_view.dart';
+import 'package:invasive_species_finder/features/help/presentation/help_view_local.dart';
+import 'package:invasive_species_finder/features/location/presentation/map_page.dart';
+import 'package:invasive_species_finder/features/message/presentation/messages_view.dart';
+import 'package:invasive_species_finder/features/page_not_found/presentation/page_not_found_view.dart';
+import 'package:invasive_species_finder/features/user/presentation/posts_view.dart';
 
-import 'settings/settings_view.dart';
+import 'features/settings/presentation/settings_view.dart';
 
-import 'pages/signin/signin_view.dart';
-import 'pages/signup/signup_view.dart';
-import 'pages/home/home_view.dart';
-import 'pages/camera/camera_page.dart';
+import 'features/authentication/presentation/signin_view.dart';
+import 'features/authentication/presentation/signup_view.dart';
+import 'features/home/presentation/home_view.dart';
+import 'features/camera/presentation/camera_page.dart';
 
 /// The Widget that configures your application.
 class MyApp extends ConsumerWidget {
