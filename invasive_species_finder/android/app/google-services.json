@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "552640942465",
+    "project_id": "invasive-species-finder",
+    "storage_bucket": "invasive-species-finder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552640942465:android:d3bff393f9c4ff2286d880",
+        "android_client_info": {
+          "package_name": "com.example.invasive_species_finder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQRd7vI_YgxlyY-mTiOYKnjeKhR4i6Dng"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
