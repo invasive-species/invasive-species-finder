@@ -9,12 +9,14 @@ import 'package:invasive_species_finder/features/help/presentation/help_view_loc
 import 'package:invasive_species_finder/features/location/presentation/map_page.dart';
 import 'package:invasive_species_finder/features/message/presentation/messages_view.dart';
 import 'package:invasive_species_finder/features/page_not_found/presentation/page_not_found_view.dart';
+import 'package:invasive_species_finder/features/species/presentation/list_category_view.dart';
 import 'package:invasive_species_finder/features/user/presentation/posts_view.dart';
 
+import 'features/authentication/presentation/forgot_password_view.dart';
+import 'features/authentication/presentation/verify_email_view.dart';
 import 'features/settings/presentation/settings_view.dart';
 
 import 'features/authentication/presentation/signin_view.dart';
-import 'features/authentication/presentation/signup_view.dart';
 import 'features/home/presentation/home_view.dart';
 import 'features/camera/presentation/camera_page.dart';
 
@@ -44,10 +46,12 @@ class MyApp extends ConsumerWidget {
           settings: routeSettings,
           builder: (BuildContext context) {
             switch (routeSettings.name) {
-              case SigninView.routeName:
-                return SigninView();
-              case SignupView.routeName:
-                return const SignupView();
+              case SignInView.routeName:
+                return const SignInView();
+              case VerifyEmailView.routeName:
+                return const VerifyEmailView();
+              case ForgotPasswordView.routeName:
+                return const ForgotPasswordView();
               case SettingsView.routeName:
                 return const SettingsView();
               case HomeView.routeName:
@@ -72,6 +76,8 @@ class MyApp extends ConsumerWidget {
                 return AddPost();
               case EditPostView.routeName:
                 return EditPostView();
+                case ListCategoryView.routeName:
+                  return const ListCategoryView();
               default:
                 return const PageNotFoundView();
             }
