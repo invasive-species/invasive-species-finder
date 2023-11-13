@@ -53,7 +53,16 @@ class SpeciesDB {
         locationID: 'location-003',
         postID: 'post-003',
         category: 'plant',
-        )
+        ),
+    SpeciesData(
+        id: 'species-004',
+        name: 'Species4',
+        description: 'details of species4',
+        imagePath: 'assets/images/ohia-lehua.png',
+        locationID: 'location-007',
+        postID: 'post-004',
+        category: 'plant',
+    ),
   ];
 
   SpeciesData getSpecies(String speciesID) {
