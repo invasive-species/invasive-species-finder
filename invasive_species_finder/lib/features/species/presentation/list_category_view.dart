@@ -5,7 +5,6 @@ import 'package:invasive_species_finder/features/location/domain/location_db.dar
 import '../../location/data/location_providers.dart';
 import '../data/species_providers.dart';
 import 'list_category_item.dart';
-import 'list_category_action.dart';
 
 /// Displays a list of Categories.
 class ListCategoryView extends ConsumerWidget {
