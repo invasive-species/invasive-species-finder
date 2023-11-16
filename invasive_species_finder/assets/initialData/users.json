@@ -1,0 +1,32 @@
+[
+  {
+    "id": "user-001",
+    "name": "John Deane",
+    "username": "@johndeane",
+    "email": "johndeane@gmail.com",
+    "imagePath": "assets/images/john.png",
+    "initials": "JD"
+  },
+  {
+    "id": "user-002",
+    "name": "Jane Doe",
+    "username": "@janedoe",
+    "email": "janedoe@gmail.com",
+    "imagePath": "",
+    "initials": "JD"
+  },
+  {
+    "id": "user-004",
+    "name": "Philip Johnson",
+    "username": "@fiveoclockphil",
+    "email": "johnson@hawaii.edu",
+    "initials": "PJ"
+  },
+  {
+    "id": "user-005",
+    "name": "Hangbo Zhang",
+    "username": "@zhb",
+    "email": "hangbo@hawaii.edu",
+    "initials": "HZ"
+  }
+]

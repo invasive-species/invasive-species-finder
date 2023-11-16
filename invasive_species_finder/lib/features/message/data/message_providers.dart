@@ -1,7 +1,17 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../domain/message_db.dart';
+import '../data/message_database.dart';
+import '../domain/message.dart';
 
-final messageDBProvider = Provider<MessageDB>((ref) {
-  return MessageDB(ref);
-});
+part 'message_providers.g.dart';
+
+@riverpod
+MessageDatabase messageDatabase(MessageDatabaseRef ref) {
+  return MessageDatabase(ref);
+}
+
+@riverpod
+Stream<List<Message>> messages(MessagesRef ref) {
+  final database = ref.watch(messageDatabaseProvider);
+  return database.watchMessages();
+}

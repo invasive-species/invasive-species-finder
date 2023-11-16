@@ -6,7 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class MapPage extends StatefulWidget {
-  const MapPage({
+  MapPage({
     Key? key,
   }) : super(key: key);
 

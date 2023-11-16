@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invasive_species_finder/features/forum/domain/forum_post_db.dart';
+import 'package:invasive_species_finder/features/forum/domain/forum_post_collection.dart';
 
+import '../../common/all_data_provider.dart';
 import '../../common/drawer_view.dart';
-import '../../forum/data/forum_post_providers.dart';
+import '../../common/isf_error.dart';
+import '../../common/isf_loading.dart';
+import '../../forum/domain/forum_post.dart';
 import '../../help/presentation/help_button.dart';
-import '../data/post_providers.dart';
 import 'post_card_view.dart';
 
 const pageSpecification = '''
@@ -44,9 +46,25 @@ class PostsView extends ConsumerWidget {
   static const routeName = '/posts';
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final String currentUserID = ref.watch(currentUserIDProvider);
-    final ForumPostDB postsDB = ref.watch(forumPostDBProvider);
+  build(BuildContext context, WidgetRef ref){
+    final AsyncValue<AllData> asyncAllData = ref.watch(allDataProvider);
+    return asyncAllData.when(
+      data: (allData) => _build(
+        context: context,
+        currentUserID: allData.currentUserID,
+        posts: allData.posts,
+      ),
+      error: (err, stack) => ISFError(err.toString(), stack.toString()),
+      loading: () => const ISFLoading(),
+    );
+  }
+
+  Widget _build(
+      {required BuildContext context,
+        required String currentUserID,
+        required List<ForumPost> posts}) {
+    ForumPostCollection forumPostCollection = ForumPostCollection(posts);
+    List<String> postIDs = forumPostCollection.getAssociatedPostIDs(userID: currentUserID);
     return Scaffold(
       drawer: const DrawerView(),
       appBar: AppBar(
@@ -54,8 +72,7 @@ class PostsView extends ConsumerWidget {
         actions: const [HelpButton(routeName: PostsView.routeName)],
       ),
       body: ListView(children: [
-        ...postsDB
-            .getAssociatedPostIDs(currentUserID)
+        ...postIDs
             .map((postID) => PostCardView(postID: postID))
       ]),
       bottomNavigationBar: BottomNavigationBar(

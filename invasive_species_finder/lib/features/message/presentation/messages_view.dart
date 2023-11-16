@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:invasive_species_finder/features/message/domain/message.dart';
+import 'package:invasive_species_finder/features/message/domain/message_collection.dart';
 
-import '../../user/data/post_providers.dart';
-import '../data/message_providers.dart';
+import '../../common/all_data_provider.dart';
+import '../../common/isf_error.dart';
+import '../../common/isf_loading.dart';
 import 'messages_item_view.dart';
-import '../domain/message_db.dart';
 
 /// Displays a list of Gardens.
 class MessagesView extends ConsumerWidget {
@@ -16,10 +18,26 @@ class MessagesView extends ConsumerWidget {
   static const routeName = '/messages';
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final String currentUserID = ref.watch(currentUserIDProvider);
-    final MessageDB messageDB = ref.watch(messageDBProvider);
-    List<String> messageIDs = messageDB.getAssociatedMessageIDs(currentUserID);
+  build(BuildContext context, WidgetRef ref){
+    final AsyncValue<AllData> asyncAllData = ref.watch(allDataProvider);
+    return asyncAllData.when(
+      data: (allData) => _build(
+        context: context,
+        currentUserID: allData.currentUserID,
+        messages: allData.messages,
+      ),
+      error: (err, stack) => ISFError(err.toString(), stack.toString()),
+      loading: () => const ISFLoading(),
+    );
+  }
+
+  _build({
+    required BuildContext context,
+    required String currentUserID,
+    required List<Message> messages,
+}) {
+    MessageCollection messageCollection = MessageCollection(messages);
+    List<String> messageIDs = messageCollection.getAssociatedMessageIDs(currentUserID);
     return Padding(
         padding: const EdgeInsets.only(top: 10.0),
         child: (messageIDs.isEmpty)

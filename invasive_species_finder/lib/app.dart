@@ -55,7 +55,7 @@ class MyApp extends ConsumerWidget {
               case SettingsView.routeName:
                 return const SettingsView();
               case HomeView.routeName:
-                return HomeView();
+                return const HomeView();
               case HelpView.routeName:
                 return const HelpView();
               case HelpViewLocal.routeName:
@@ -67,7 +67,7 @@ class MyApp extends ConsumerWidget {
               case TakePicturePage.routeName:
                 return const TakePicturePage();
               case MapPage.routeName:
-                return const MapPage();
+                return MapPage();
               case ForumView.routeName:
                 return const ForumView();
               case MessagesView.routeName:
