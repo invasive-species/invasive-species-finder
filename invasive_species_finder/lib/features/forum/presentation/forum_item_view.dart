@@ -10,6 +10,8 @@ import '../../common/isf_loading.dart';
 import '../../location/domain/location.dart';
 import '../../species/domain/species.dart';
 import '../../species/domain/species_collection.dart';
+import '../../user/domain/user.dart';
+import '../../user/domain/user_collection.dart';
 import '../domain/forum_post.dart';
 import 'edit_post_view.dart';
 
@@ -34,6 +36,7 @@ class ForumItemView extends ConsumerWidget {
         posts: allData.posts,
         locations: allData.locations,
         species: allData.species,
+        users: allData.users,
       ),
       error: (err, stack) => ISFError(err.toString(), stack.toString()),
       loading: () => const ISFLoading(),
@@ -45,11 +48,13 @@ class ForumItemView extends ConsumerWidget {
     required String currentUserID,
     required List<ForumPost> posts,
     required List<Location> locations,
+    required List<User> users,
     required List<Species> species}) {
     ForumPostCollection postCollection = ForumPostCollection(posts);
     LocationCollection locationCollection = LocationCollection(locations);
     SpeciesCollection speciesCollection = SpeciesCollection(species);
-
+    UserCollection userCollection = UserCollection(users);
+    
     ForumPost data = postCollection.getPost(postID);
     String imagePath = data.imagePath;
     String title = data.title;

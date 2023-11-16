@@ -77,7 +77,8 @@ class AddPost extends ConsumerWidget {
       // Since validation passed, we can safely access the values.
       String title = _titleFieldKey.currentState?.value;
       String body = _bodyFieldKey.currentState?.value;
-      String date = _dateFieldKey.currentState?.value;
+      DateTime selectedDate = _dateFieldKey.currentState?.value;
+      String date = DateFormat.yMd().format(selectedDate);
       String imageFileName = _photoFieldKey.currentState?.value;
       String locationID =
           locationCollection.getLocationIDFromName(_locationFieldKey.currentState?.value);

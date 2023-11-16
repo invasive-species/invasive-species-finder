@@ -6,7 +6,9 @@ import 'package:invasive_species_finder/features/common/isf_error.dart';
 import 'package:invasive_species_finder/features/user/domain/user_collection.dart';
 import 'package:invasive_species_finder/features/user/presentation/posts_view.dart';
 
+import '../help/presentation/help_view.dart';
 import '../home/presentation/home_view.dart';
+import '../settings/presentation/settings_view.dart';
 import '../user/domain/user.dart';
 import '../user/presentation/user_avatar.dart';
 import 'isf_loading.dart';
@@ -36,12 +38,15 @@ class DrawerView extends ConsumerWidget {
       required String currentUserID}) {
     UserCollection userCollection = UserCollection(users);
     User user = userCollection.getUser(currentUserID);
+    print(users);
+    print(currentUserID);
+    print(userCollection);
     return Drawer(
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
             accountName: Text(user.name),
-            accountEmail: Text(user.email),
+            accountEmail: Text(user.id),
             currentAccountPicture: UserAvatar(userID: user.id),
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
@@ -59,6 +64,20 @@ class DrawerView extends ConsumerWidget {
             title: const Text('Posts'),
             onTap: () {
               Navigator.pushReplacementNamed(context, PostsView.routeName);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.help_outline),
+            title: const Text('Help'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, HelpView.routeName);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text('Settings'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, SettingsView.routeName);
             },
           ),
           ListTile(

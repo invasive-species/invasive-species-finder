@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'species.freezed.dart';
@@ -16,4 +19,12 @@ class Species with _$Species {
 }) = _Species;
 
   factory Species.fromJson(Map<String, dynamic> json) => _$SpeciesFromJson(json);
+
+  // Test that the json file can be converted into entities.
+  static Future<List<Species>> checkInitialData() async {
+    String content =
+    await rootBundle.loadString("assets/initialData/species.json");
+    List<dynamic> initialData = json.decode(content);
+    return initialData.map((jsonData) => Species.fromJson(jsonData)).toList();
+  }
 }

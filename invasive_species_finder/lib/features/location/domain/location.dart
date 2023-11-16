@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'location.freezed.dart';
@@ -16,4 +19,12 @@ class Location with _$Location {
 
   factory Location.fromJson(Map<String, dynamic> json) =>
       _$LocationFromJson(json);
+
+  // Test that the json file can be converted into entities.
+  static Future<List<Location>> checkInitialData() async {
+    String content =
+    await rootBundle.loadString("assets/initialData/locations.json");
+    List<dynamic> initialData = json.decode(content);
+    return initialData.map((jsonData) => Location.fromJson(jsonData)).toList();
+  }
 }
