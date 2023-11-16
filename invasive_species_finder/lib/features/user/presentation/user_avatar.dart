@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:invasive_species_finder/features/common/all_data_provider.dart';
+import 'package:invasive_species_finder/features/common/isf_loading.dart';
 
-import '../data/post_providers.dart';
-import '../domain/user_db.dart';
+import '../../common/isf_error.dart';
+import '../domain/user.dart';
+import '../domain/user_collection.dart';
 
 /// Returns a CircleAvatar with either an image if available or initials, plus a label.
 class UserAvatar extends ConsumerWidget {
@@ -12,16 +15,26 @@ class UserAvatar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final UserDB userDB = ref.watch(userDBProvider);
-    UserData data = userDB.getUser(userID);
-    bool hasImagePath = data.imagePath != null;
+    final AsyncValue<AllData> asyncAllData = ref.watch(allDataProvider);
+    return asyncAllData.when(
+        data: (allData) => _build(users: allData.users),
+        loading: () => const ISFLoading(),
+        error: (error, st) => ISFError(error.toString(), st.toString()));
+  }
+
+  Widget _build({required List<User> users}) {
+    UserCollection userCollection = UserCollection(users);
+    print(userCollection);
+    print(userID);
+    User user = userCollection.getUser(userID);
+    bool hasImagePath = user.imagePath != null;
     return
       (hasImagePath) ?
       CircleAvatar(
-        backgroundImage: AssetImage(data.imagePath!),
+        backgroundImage: AssetImage(user.imagePath!),
       ) :
       CircleAvatar(
-        child: Text(data.initials),
+        child: Text(user.initials),
       );
   }
 }

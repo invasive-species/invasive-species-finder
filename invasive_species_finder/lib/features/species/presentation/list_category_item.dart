@@ -1,11 +1,14 @@
 // list_view_item.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:invasive_species_finder/features/species/domain/species_collection.dart';
 
-import '../../location/data/location_providers.dart';
-import '../../species/data/species_providers.dart';
-import '../../location/domain/location_db.dart';
-import '../../species/domain/species_db.dart';
+import '../../common/all_data_provider.dart';
+import '../../common/isf_error.dart';
+import '../../common/isf_loading.dart';
+import '../../location/domain/location.dart';
+import '../../location/domain/location_collection.dart';
+import '../domain/species.dart';
 
 class ListCategoryItem extends ConsumerWidget {
   final String speciesID;
@@ -16,16 +19,38 @@ class ListCategoryItem extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final SpeciesDB speciesDB = ref.watch(speciesDBProvider);
-    SpeciesData data = speciesDB.getSpecies(speciesID);
+  build(BuildContext context, WidgetRef ref){
+    final AsyncValue<AllData> asyncAllData = ref.watch(allDataProvider);
+    return asyncAllData.when(
+      data: (allData) => _build(
+        context: context,
+        currentUserID: allData.currentUserID,
+        species: allData.species,
+        locations: allData.locations,
+      ),
+      error: (err, stack) => ISFError(err.toString(), stack.toString()),
+      loading: () => const ISFLoading(),
+    );
+  }
+
+  _build({
+    required BuildContext context,
+    required String currentUserID,
+    required List<Species> species,
+    required List<Location> locations,
+}) {
+    SpeciesCollection speciesCollection = SpeciesCollection(species);
+    Species data = speciesCollection.getSpecies(speciesID);
+
+    LocationCollection locationCollection = LocationCollection(locations);
+
     String imagePath = data.imagePath;
     String name = data.name;
     String description = data.description;
     String category = data.category;
     String locationId = data.locationID;
-    final LocationDB locationDB = ref.watch(locationDBProvider);
-    String locationName = locationDB.getLocations(locationId).name;
+
+    String locationName = locationCollection.getLocation(locationId).name;
     AssetImage image = AssetImage(imagePath);
     return Card(
       elevation: 9,

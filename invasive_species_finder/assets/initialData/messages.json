@@ -1,0 +1,38 @@
+[
+  {
+    "id": "message-001",
+    "userID": "user-001",
+    "content": "species-001",
+    "replierId": "user-002"
+  },
+  {
+    "id": "message-002",
+    "userID": "user-001",
+    "content": "species-002",
+    "replierId": "user-003"
+  },
+  {
+    "id": "message-003",
+    "userID": "user-002",
+    "content": "species-003",
+    "replierId": "user-001"
+  },
+  {
+    "id": "message-004",
+    "userID": "user-002",
+    "content": "species-001",
+    "replierId": "user-003"
+  },
+  {
+    "id": "message-005",
+    "userID": "user-003",
+    "content": "species-002",
+    "replierId": "user-001"
+  },
+  {
+    "id": "message-006",
+    "userID": "user-003",
+    "content": "species-001",
+    "replierId": "user-002"
+  }
+]

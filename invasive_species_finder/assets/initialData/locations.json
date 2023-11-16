@@ -1,0 +1,58 @@
+[
+  {
+    "id": "location-001",
+    "userID": "user-001",
+    "speciesID": "species-001",
+    "name": "Kahuku Farms",
+    "attitude": 21.6824,
+    "latitude": -157.9515
+  },
+  {
+    "id": "location-002",
+    "userID": "user-001",
+    "speciesID": "species-002",
+    "name": "North Shore",
+    "attitude": 21.6481,
+    "latitude": -158.0624
+  },
+  {
+    "id": "location-003",
+    "userID": "user-001",
+    "speciesID": "species-003",
+    "name": "Ewa Beach",
+    "attitude": 21.3156,
+    "latitude": -158.0072
+  },
+  {
+    "id": "location-004",
+    "userID": "user-002",
+    "speciesID": "species-001",
+    "name": "Kapolei",
+    "attitude": 21.3358,
+    "latitude": -158.0560
+  },
+  {
+    "id": "location-005",
+    "userID": "user-002",
+    "speciesID": "species-002",
+    "name": "Kailua",
+    "attitude": 21.4022,
+    "latitude": -157.7394
+  },
+  {
+    "id": "location-006",
+    "userID": "user-003",
+    "speciesID": "species-001",
+    "name": "Wahiawa",
+    "attitude": 21.5025,
+    "latitude": -158.0236
+  },
+  {
+    "id": "location-007",
+    "userID": "user-003",
+    "speciesID": "species-002",
+    "name": "Somewhere",
+    "attitude": 0.0,
+    "latitude": 37.4226
+  }
+]

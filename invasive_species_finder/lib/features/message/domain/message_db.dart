@@ -1,4 +1,4 @@
-
+/*
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// The data associated with messages.
@@ -73,4 +73,4 @@ class MessageDB {
         .toList();
   }
 }
-
+*/

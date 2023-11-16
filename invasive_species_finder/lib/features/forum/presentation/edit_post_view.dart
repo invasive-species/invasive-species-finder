@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:invasive_species_finder/features/forum/presentation/edit_post_controller.dart';
 import 'package:invasive_species_finder/features/help/presentation/help_button.dart';
-import 'package:invasive_species_finder/features/forum/domain/forum_post_db.dart';
-import 'package:invasive_species_finder/features/location/domain/location_db.dart';
-import 'package:invasive_species_finder/features/species/domain/species_db.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:invasive_species_finder/features/forum/presentation/form-fields/body_field.dart';
 import 'package:invasive_species_finder/features/forum/presentation/form-fields/date_field.dart';
 import 'package:invasive_species_finder/features/forum/presentation/form-fields/location_dropdown_field.dart';
 import 'package:invasive_species_finder/features/forum/presentation/form-fields/photo_field.dart';
 import 'package:invasive_species_finder/features/forum/presentation/form-fields/post_title_field.dart';
+import 'package:invasive_species_finder/features/location/domain/location_collection.dart';
 
-import '../../location/data/location_providers.dart';
-import '../../species/data/species_providers.dart';
-import '../../user/data/post_providers.dart';
-import '../data/forum_post_providers.dart';
+import '../../common/all_data_provider.dart';
+import '../../common/global_snackbar.dart';
+import '../../common/isf_error.dart';
+import '../../common/isf_loading.dart';
+import '../../location/domain/location.dart';
+import '../../species/domain/species.dart';
+import '../../species/domain/species_collection.dart';
+import '../../user/domain/user.dart';
+import '../domain/forum_post.dart';
+import '../domain/forum_post_collection.dart';
 import 'form-fields/reset_button.dart';
 import 'form-fields/species_dropdown_field.dart';
 import 'form-fields/submit_button.dart';
@@ -35,17 +41,42 @@ class EditPostView extends ConsumerWidget {
   final _speciesFieldKey = GlobalKey<FormBuilderFieldState>();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final LocationDB locationDB = ref.watch(locationDBProvider);
-    final SpeciesDB speciesDB = ref.watch(speciesDBProvider);
-    final String currentUserID = ref.watch(currentUserIDProvider);
-    final ForumPostDB postDB = ref.watch(forumPostDBProvider);
+  build(BuildContext context, WidgetRef ref){
+    final AsyncValue<AllData> asyncAllData = ref.watch(allDataProvider);
+    return asyncAllData.when(
+      data: (allData) => _build(
+        context: context,
+        currentUserID: allData.currentUserID,
+        posts: allData.posts,
+        users: allData.users,
+        locations: allData.locations,
+        species: allData.species,
+        ref: ref,
+      ),
+      error: (err, stack) => ISFError(err.toString(), stack.toString()),
+      loading: () => const ISFLoading(),
+    );
+  }
+
+  _build({
+    required BuildContext context,
+    required String currentUserID,
+    required List<ForumPost> posts,
+    required List<User> users,
+    required List<Location> locations,
+    required List<Species> species,
+    required WidgetRef ref,
+}) {
+    LocationCollection locationCollection = LocationCollection(locations);
+    SpeciesCollection speciesCollection = SpeciesCollection(species);
+    ForumPostCollection postCollection = ForumPostCollection(posts);
+
     String postID = ModalRoute.of(context)?.settings.arguments as String;
-    ForumPostData postData = postDB.getPosts(postID);
-    List<String> locationNames = locationDB.getLocationNames();
-    List<String> speciesNames = speciesDB.getSpeciesNames();
-    String currentLocationName = locationDB.getLocations(postData.locationID).name;
-    String currentSpeciesName = speciesDB.getSpecies(postData.speciesID).name;
+    ForumPost postData = postCollection.getPost(postID);
+    List<String> locationNames = locationCollection.getLocationNames();
+    List<String> speciesNames = speciesCollection.getSpeciesNames();
+    String currentLocationName = locationCollection.getLocation(postData.locationID).name;
+    String currentSpeciesName = speciesCollection.getSpecies(postData.speciesID).name;
 
     void onSubmit() {
       bool isValid = _formKey.currentState?.saveAndValidate() ?? false;
@@ -56,19 +87,26 @@ class EditPostView extends ConsumerWidget {
       String date = _dateFieldKey.currentState?.value;
       String imagePath = _photoFieldKey.currentState?.value;
       String locationID =
-          locationDB.getLocationIDFromName(_locationFieldKey.currentState?.value);
-      String speciesID = speciesDB.getSpeciesIDFromName(_speciesFieldKey.currentState?.value);
+          locationCollection.getLocationIDFromName(_locationFieldKey.currentState?.value);
+      String speciesID = speciesCollection.getSpeciesIDFromName(_speciesFieldKey.currentState?.value);
+      String lastUpdate = DateFormat.yMd().format(DateTime.now());
       // Add the new post.
-      postDB.updatePost(
+      ForumPost post = ForumPost(
           id: postID,
           title: title,
           body: body,
           date: date,
           imagePath: imagePath,
           locationID: locationID,
+          lastUpdate: lastUpdate,
           userID: currentUserID,
           speciesID: speciesID);
-      Navigator.pushReplacementNamed(context, ForumView.routeName);
+      ref.read(editPostControllerProvider.notifier).updatePost(
+          post: post,
+          onSuccess: (){
+            Navigator.pushReplacementNamed(context, ForumView.routeName);
+            GlobalSnackBar.show('Post "$title" updated.');
+          });
     }
 
     void onReset() {

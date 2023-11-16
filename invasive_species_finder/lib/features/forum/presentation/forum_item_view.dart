@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:invasive_species_finder/features/forum/domain/forum_post_collection.dart';
+import 'package:invasive_species_finder/features/location/domain/location_collection.dart';
 import 'package:invasive_species_finder/features/user/presentation/user_labeled_avatar.dart';
 
-import '../../location/data/location_providers.dart';
-import '../../species/data/species_providers.dart';
-import '../data/forum_post_providers.dart';
-import '../domain/forum_post_db.dart';
-import '../../location/domain/location_db.dart';
-import '../../species/domain/species_db.dart';
+import '../../common/all_data_provider.dart';
+import '../../common/isf_error.dart';
+import '../../common/isf_loading.dart';
+import '../../location/domain/location.dart';
+import '../../species/domain/species.dart';
+import '../../species/domain/species_collection.dart';
+import '../../user/domain/user.dart';
+import '../../user/domain/user_collection.dart';
+import '../domain/forum_post.dart';
 import 'edit_post_view.dart';
 
 enum PostActions { edit, delete }
@@ -22,11 +27,35 @@ class ForumItemView extends ConsumerWidget {
   final String postID;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final ForumPostDB postsDB = ref.watch(forumPostDBProvider);
-    final LocationDB locationDB = ref.watch(locationDBProvider);
-    final SpeciesDB speciesDB = ref.watch(speciesDBProvider);
-    ForumPostData data = postsDB.getPosts(postID);
+  build(BuildContext context, WidgetRef ref){
+    final AsyncValue<AllData> asyncAllData = ref.watch(allDataProvider);
+    return asyncAllData.when(
+      data: (allData) => _build(
+        context: context,
+        currentUserID: allData.currentUserID,
+        posts: allData.posts,
+        locations: allData.locations,
+        species: allData.species,
+        users: allData.users,
+      ),
+      error: (err, stack) => ISFError(err.toString(), stack.toString()),
+      loading: () => const ISFLoading(),
+    );
+  }
+
+  Widget _build({
+    required BuildContext context,
+    required String currentUserID,
+    required List<ForumPost> posts,
+    required List<Location> locations,
+    required List<User> users,
+    required List<Species> species}) {
+    ForumPostCollection postCollection = ForumPostCollection(posts);
+    LocationCollection locationCollection = LocationCollection(locations);
+    SpeciesCollection speciesCollection = SpeciesCollection(species);
+    UserCollection userCollection = UserCollection(users);
+    
+    ForumPost data = postCollection.getPost(postID);
     String imagePath = data.imagePath;
     String title = data.title;
     String body = data.body;
@@ -36,8 +65,8 @@ class ForumItemView extends ConsumerWidget {
     String userID = data.userID;
     String speciesID = data.speciesID;
 
-    String locationName = locationDB.getLocations(locationID).name;
-    String speciesName = speciesDB.getSpecies(speciesID).name;
+    String locationName = locationCollection.getLocation(locationID).name;
+    String speciesName = speciesCollection.getSpecies(speciesID).name;
     AssetImage image = AssetImage(imagePath);
     return Card(
       elevation: 9,
