@@ -38,9 +38,7 @@ class DrawerView extends ConsumerWidget {
       required String currentUserID}) {
     UserCollection userCollection = UserCollection(users);
     User user = userCollection.getUser(currentUserID);
-    print(users);
-    print(currentUserID);
-    print(userCollection);
+
     return Drawer(
       child: ListView(
         children: [

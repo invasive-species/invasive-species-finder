@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:invasive_species_finder/features/species/domain/species_collection.dart';
+import 'package:invasive_species_finder/features/species/presentation/species_detail_view.dart';
 
 import '../../common/all_data_provider.dart';
 import '../../common/isf_error.dart';
@@ -52,27 +53,37 @@ class ListCategoryItem extends ConsumerWidget {
 
     String locationName = locationCollection.getLocation(locationId).name;
     AssetImage image = AssetImage(imagePath);
-    return Card(
-      elevation: 9,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListTile(
-            isThreeLine: true,
-            title: Text(name),
-            subtitle: Text('$description\n$category\n$locationName\n'),
-          ),
-          SizedBox(
-            height: 200,
-            child: Image(
-              image: image,
-              fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SpeciesDetailView(speciesID: speciesID),
+          )
+        );
+      },
+      child: Card(
+        elevation: 9,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              isThreeLine: true,
+              title: Text(name),
+              subtitle: Text('$description\n$category\n$locationName\n'),
             ),
-          ),
-          const SizedBox(height: 10),
-          Text('Location: $locationName')
-        ],
-      ),
-      );
+            SizedBox(
+              height: 200,
+              child: Image(
+                image: image,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text('Location: $locationName')
+          ],
+        ),
+        ),
+    );
   }
 }

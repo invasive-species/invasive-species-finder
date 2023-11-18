@@ -24,8 +24,7 @@ class UserAvatar extends ConsumerWidget {
 
   Widget _build({required List<User> users}) {
     UserCollection userCollection = UserCollection(users);
-    print(userCollection);
-    print(userID);
+
     User user = userCollection.getUser(userID);
     bool hasImagePath = user.imagePath != null;
     return

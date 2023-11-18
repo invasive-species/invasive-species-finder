@@ -11,7 +11,6 @@ import '../../location/domain/location.dart';
 import '../../species/domain/species.dart';
 import '../../species/domain/species_collection.dart';
 import '../../user/domain/user.dart';
-import '../../user/domain/user_collection.dart';
 import '../domain/forum_post.dart';
 import 'edit_post_view.dart';
 
@@ -53,8 +52,7 @@ class ForumItemView extends ConsumerWidget {
     ForumPostCollection postCollection = ForumPostCollection(posts);
     LocationCollection locationCollection = LocationCollection(locations);
     SpeciesCollection speciesCollection = SpeciesCollection(species);
-    UserCollection userCollection = UserCollection(users);
-    
+
     ForumPost data = postCollection.getPost(postID);
     String imagePath = data.imagePath;
     String title = data.title;

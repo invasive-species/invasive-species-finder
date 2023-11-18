@@ -1,9 +1,9 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:json_theme/json_theme.dart';
+import 'package:invasive_species_finder/features/common/drawer_view.dart';
+
+import '../data/settings_db.dart';
 
 
 /// Displays the various settings that can be customized by the user.
@@ -16,10 +16,17 @@ class SettingsView extends ConsumerWidget {
 
   const SettingsView({super.key});
 
+  void updateThemeMode(ThemeMode? newThemeMode, WidgetRef ref) {
+    if (newThemeMode == null) return;
+    if (newThemeMode == ref.read(currentThemeModeProvider)) return;
+    ref.read(currentThemeModeProvider.notifier).setThemeMode(newThemeMode);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(currentThemeProvider);
+    ref.watch(currentThemeModeProvider);
     return Scaffold(
+      drawer: const DrawerView(),
       appBar: AppBar(
         title: const Text('Settings'),
       ),
@@ -30,11 +37,10 @@ class SettingsView extends ConsumerWidget {
         // When a user selects a theme from the dropdown list, the
         // SettingsController is updated, which rebuilds the MaterialApp.
         child: DropdownButton<ThemeMode>(
-          value: themeMode,
+          value: ref.read(currentThemeModeProvider),
           // Call the updateThemeMode method any time the user selects a theme.
-          onChanged: (selectedTheme) {
-            ref.read(currentThemeProvider.notifier).state = selectedTheme!;
-          },
+          onChanged: (ThemeMode? newThemeMode) =>
+          updateThemeMode(newThemeMode, ref),
           items: const [
             DropdownMenuItem(
               value: ThemeMode.system,
@@ -54,7 +60,7 @@ class SettingsView extends ConsumerWidget {
     );
   }
 }
-
+/*
 final currentThemeProvider = StateProvider<ThemeMode>((ref) {
   return ThemeMode.system;
 });
@@ -64,3 +70,4 @@ final systemThemeDataProvider = FutureProvider<ThemeData>((ref) async{
   final themeJson = jsonDecode(themeStr);
   return ThemeDecoder.decodeThemeData(themeJson)!;
 });
+*/
