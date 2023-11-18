@@ -14,7 +14,11 @@ import 'package:invasive_species_finder/features/user/presentation/posts_view.da
 
 import 'features/authentication/presentation/forgot_password_view.dart';
 import 'features/authentication/presentation/verify_email_view.dart';
+import 'features/common/global_snackbar.dart';
+import 'features/settings/data/settings_db.dart';
 import 'features/settings/presentation/settings_view.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
+
 
 import 'features/authentication/presentation/signin_view.dart';
 import 'features/home/presentation/home_view.dart';
@@ -28,16 +32,23 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentTheme = ref.watch(currentThemeProvider);
-    final systemTheme = ref.watch(systemThemeDataProvider);
 
     return MaterialApp(
       // Define a light and dark color theme. Then, read the user's
       // preferred ThemeMode (light, dark, or system default) from the
       // SettingsController to display the correct theme.
-      theme: systemTheme.value,
-      themeMode: currentTheme,
-      darkTheme: ThemeData.dark(),
+      scaffoldMessengerKey: GlobalSnackBar.key,
+      theme: FlexThemeData.light(
+          scheme: FlexScheme.green,
+          subThemesData: const FlexSubThemesData(
+              inputDecoratorBorderType: FlexInputBorderType.outline)),
+      themeMode: ref.watch(currentThemeModeProvider),
+      darkTheme: FlexThemeData.dark(
+        scheme: FlexScheme.green,
+        subThemesData: const FlexSubThemesData(
+          inputDecoratorBorderType: FlexInputBorderType.outline
+        )
+      ),
 
       // Define a function to handle named routes in order to support
       // Flutter web url navigation and deep linking.

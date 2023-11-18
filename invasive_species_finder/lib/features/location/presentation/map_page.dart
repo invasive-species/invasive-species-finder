@@ -31,7 +31,7 @@ class MapPageState extends State<MapPage> {
   Future<void> _requestPermission(BuildContext context) async {
     var status = await Permission.location.request();
     if (status.isGranted) {
-
+      _getUserLocation();
     } else if (status.isDenied) {
       _showLocationPermissionDialog(context);
     } else if (status.isPermanentlyDenied) {
