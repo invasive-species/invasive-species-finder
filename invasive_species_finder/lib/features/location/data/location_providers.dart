@@ -2,6 +2,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:invasive_species_finder/features/location/data/location_database.dart';
 import 'package:invasive_species_finder/features/location/domain/location_collection.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../domain/location.dart';
 
@@ -27,19 +28,34 @@ Future<Position> currentLocation(CurrentLocationRef ref) async {
 
 @riverpod
 Future<List<String>> currentLocationIDs(CurrentLocationIDsRef ref) async {
-  final Position position = await ref.watch(currentLocationProvider.future);
-  final locations = await ref.watch(locationsProvider.future);
-  double attitude = position.altitude;
-  double latitude = position.latitude;
-  LocationCollection locationCollection = LocationCollection(locations);
-  return locationCollection.getLocationIDs()
-      .where(
-          (locationID) =>(
-          (locationCollection.getLocation(locationID).latitude <= latitude + 0.5 &&
-              locationCollection.getLocation(locationID).latitude >= latitude - 0.5) &&
-              (locationCollection.getLocation(locationID).attitude >= attitude - 0.5 &&
-                  locationCollection.getLocation(locationID).attitude <= attitude + 0.5)))
-      .toList();
+  var locationPermission = await Permission.location.request();
+  if (locationPermission.isGranted) {
+    final Position position = await ref.watch(currentLocationProvider.future);
+    final locations = await ref.watch(locationsProvider.future);
+    double attitude = position.altitude;
+    double latitude = position.latitude;
+    LocationCollection locationCollection = LocationCollection(locations);
+    return locationCollection.getLocationIDs()
+        .where(
+            (locationID) =>
+        (
+            (locationCollection
+                .getLocation(locationID)
+                .latitude <= latitude + 0.5 &&
+                locationCollection
+                    .getLocation(locationID)
+                    .latitude >= latitude - 0.5) &&
+                (locationCollection
+                    .getLocation(locationID)
+                    .attitude >= attitude - 0.5 &&
+                    locationCollection
+                        .getLocation(locationID)
+                        .attitude <= attitude + 0.5)))
+        .toList();
+  } else {
+    openAppSettings();
+    return [];
+  }
 }
 
 /*
