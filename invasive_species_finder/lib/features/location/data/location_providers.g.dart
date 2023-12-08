@@ -51,7 +51,7 @@ final currentLocationProvider = AutoDisposeFutureProvider<Position>.internal(
 
 typedef CurrentLocationRef = AutoDisposeFutureProviderRef<Position>;
 String _$currentLocationIDsHash() =>
-    r'569135267279ad40bfbf13cb2c7ce1b1d7b05cd8';
+    r'1c5b24addce59efa5e3a7d150dea158ae09f0dff';
 
 /// See also [currentLocationIDs].
 @ProviderFor(currentLocationIDs)

@@ -43,19 +43,51 @@ class ListCategoryView extends ConsumerWidget {
         .map((locationID) => speciesCollection.getAssociatedSpeciesIDs(locationID: locationID))
         .expand((element) => element)
         .toList();
+    List<String> allSpeciesIDs = speciesCollection.getSpeciesIDs();
 
     return Scaffold(
       body: Padding(
           padding: const EdgeInsets.only(top: 10.0),
-          child: (speciesIDs.isEmpty)
-              ? const Align(
-                  alignment: Alignment.center,
-                  child: Text("No species yet!"))
-              : ListView(children: [
-                  ...speciesIDs
-                      .map((speciesID) => ListCategoryItem(speciesID: speciesID))
-                      .toList()
-                ])),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Text("Species Around You",
+                    style: Theme.of(context).textTheme.titleLarge),
+              ),
+              if (speciesIDs.isEmpty)
+                const Align(
+                    alignment: Alignment.center,
+                    child: Text("No species found around this location!")),
+              if (speciesIDs.isNotEmpty)
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: _buildList(title: "Species Around", speciesIDs: speciesIDs),
+                  ),
+                ),
+              Center(
+                child: Text("All Species",
+                    style: Theme.of(context).textTheme.titleLarge),
+              ),
+              Expanded(
+                child: _buildList(title: "All Species", speciesIDs: allSpeciesIDs)
+              ),
+            ],
+          )
+          ));
+  }
+
+  _buildList({
+    required String title,
+    required List<String> speciesIDs,
+}){
+    return ListView(
+      children: [
+        ...speciesIDs
+            .map((speciesID) => ListCategoryItem(speciesID: speciesID))
+            .toList()
+      ],
     );
   }
 }
