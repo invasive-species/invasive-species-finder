@@ -51,16 +51,28 @@ class ListCategoryView extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Center(
+                child: Text("Species Around You",
+                    style: Theme.of(context).textTheme.titleLarge),
+              ),
               if (speciesIDs.isEmpty)
                 const Align(
                     alignment: Alignment.center,
                     child: Text("No species found around this location!")),
               if (speciesIDs.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: _buildList(title: "Species Around", speciesIDs: speciesIDs),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: _buildList(title: "Species Around", speciesIDs: speciesIDs),
+                  ),
                 ),
-              _buildList(title: "All Species", speciesIDs: allSpeciesIDs)
+              Center(
+                child: Text("All Species",
+                    style: Theme.of(context).textTheme.titleLarge),
+              ),
+              Expanded(
+                child: _buildList(title: "All Species", speciesIDs: allSpeciesIDs)
+              ),
             ],
           )
           ));
