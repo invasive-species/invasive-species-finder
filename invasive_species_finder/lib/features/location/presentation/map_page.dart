@@ -28,6 +28,7 @@ class MapPageState extends State<MapPage> {
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
   List<Marker> markers = [];
   final LatLng _initialPosition = const LatLng(21.300730704104364, -157.81481745653235); // Initial map position
+  late SpeciesCollection species;
 
   @override
   void initState() {
@@ -35,6 +36,17 @@ class MapPageState extends State<MapPage> {
     _requestPermission(context);
     retrievePlaces();
     moveCameraToInitialPosition();
+    loadSpeciesData();
+  }
+
+  void loadSpeciesData() async {
+    QuerySnapshot<Map<String, dynamic>> speciesData = await FirebaseFirestore.instance.collection('species').get();
+
+    List<Species> speciesList = speciesData.docs.map((doc){
+      return Species.fromJson(doc.data());
+    }).toList();
+
+    species = SpeciesCollection(speciesList);
   }
 
   void moveCameraToInitialPosition() {
@@ -94,19 +106,11 @@ class MapPageState extends State<MapPage> {
 
   void retrievePlaces() async {
     QuerySnapshot<Map<String, dynamic>> speciesLocations = await FirebaseFirestore.instance.collection('locations').get();
-    QuerySnapshot<Map<String, dynamic>> speciesData = await FirebaseFirestore.instance.collection('species').get();
-
-    List<Species> speciesList = speciesData.docs.map((doc){
-      return Species.fromJson(doc.data());
-    }).toList();
-
-    SpeciesCollection species = SpeciesCollection(speciesList);
-
     for(QueryDocumentSnapshot<Map<String, dynamic>> speciesLocation in speciesLocations.docs) {
       Map<String, dynamic> data = speciesLocation.data();
       String id = speciesLocation.id;
       String speciesID = data['speciesID'];
-      String name = species.getSpeciesName(speciesID);
+      String? name = species.getSpeciesName(speciesID);
       double latitude = data['attitude'].toDouble();
       double longitude = data['latitude'].toDouble();
       markers.add(
@@ -116,6 +120,7 @@ class MapPageState extends State<MapPage> {
           infoWindow: InfoWindow(
             title: name,
           ),
+          onTap: () => _onMarkerTapped(MarkerId(id)),
         ),
       );
     }
@@ -123,6 +128,42 @@ class MapPageState extends State<MapPage> {
     if (mounted) {
       setState(() {});
     }
+  }
+
+  void _onMarkerTapped(MarkerId markerId) {
+    Marker tappedMarker = markers.firstWhere((marker) => marker.markerId == markerId);
+    _showSpeciesInfoDialog(context, tappedMarker.infoWindow.title!);
+  }
+
+  void _showSpeciesInfoDialog(BuildContext context, String speciesName) {
+    Species current = species.getSpecies(species.getSpeciesIDFromName(speciesName));
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Details for $speciesName'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Image.asset(
+                    current.imagePath,
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                  ),
+                  Text(current.category),
+                  Text(current.description),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('OK'),
+              ),
+            ],
+          );}
+    );
   }
 
   @override
