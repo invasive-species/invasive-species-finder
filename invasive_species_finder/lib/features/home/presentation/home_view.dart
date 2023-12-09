@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:invasive_species_finder/features/location/presentation/map_page.dart';
+import 'package:invasive_species_finder/features/message/presentation/message_page.dart';
 
 import '../../common/all_data_provider.dart';
 import '../../common/drawer_view.dart';
@@ -12,7 +13,6 @@ import '../../help/presentation/help_button.dart';
 import '../../species/domain/species.dart';
 import '../../species/presentation/list_category_view.dart';
 import '../../camera/presentation/camera_page.dart';
-import '../../message/presentation/messages_view.dart';
 
 /// Top-level Layout for all of the "Home" related
 class HomeView extends ConsumerStatefulWidget {
@@ -84,7 +84,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
       },
       3: {
         'title': const Text('Messages'),
-        'body': const MessagesView(),
+        'body': const MessagePage(),
         'navItem': const BottomNavigationBarItem(
           label: 'Messages',
           icon: Icon(Icons.message),

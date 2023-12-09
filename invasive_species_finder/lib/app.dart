@@ -81,8 +81,8 @@ class MyApp extends ConsumerWidget {
                 return MapPage();
               case ForumView.routeName:
                 return const ForumView();
-              case MessagesView.routeName:
-                return const MessagesView();
+              //case MessagesView.routeName:
+                //return const MessagesView();
               case AddPost.routeName:
                 return AddPost();
               case EditPostView.routeName:

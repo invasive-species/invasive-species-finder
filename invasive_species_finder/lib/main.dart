@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:invasive_species_finder/features/forum/domain/forum_post.dart';
 import 'app.dart';
 import 'features/location/domain/location.dart';
-import 'features/message/domain/message.dart';
 import 'features/species/domain/species.dart';
 import 'features/user/domain/user.dart';
 import 'firebase_options.dart';
@@ -24,7 +23,6 @@ void main() async {
 
 Future<bool> verifyInitialData() async {
   await Location.checkInitialData();
-  await Message.checkInitialData();
   await Species.checkInitialData();
   await ForumPost.checkInitialData();
   await User.checkInitialData();
