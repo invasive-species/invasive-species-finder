@@ -10,7 +10,7 @@
     "name": "Jane Doe",
     "username": "@janedoe",
     "id": "janedoe@gmail.com",
-    "imagePath": "user-001.jpg",
+    "imagePath": "assets/images/user-001.jpg",
     "initials": "JD"
   },
   {
