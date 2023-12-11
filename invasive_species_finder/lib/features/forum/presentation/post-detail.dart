@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:invasive_species_finder/features/common/all_data_provider.dart';
+import 'package:invasive_species_finder/features/message/domain/chat_service.dart';
+import 'package:invasive_species_finder/features/message/presentation/typing_field.dart';
 import 'package:invasive_species_finder/features/species/domain/species_collection.dart';
 import '../../common/isf_error.dart';
 import '../../common/isf_loading.dart';
@@ -48,6 +51,8 @@ class PostDetail extends ConsumerWidget {
     Location locationData = locationCollection.getLocation(data.locationID);
     String speciesName = speciesData.name;
     String locationName = locationData.name;
+    final TextEditingController messageController = TextEditingController();
+    final ChatService chatService = ChatService();
 
     Widget titleSection = Container(
       padding: const EdgeInsets.all(32),
@@ -109,17 +114,86 @@ class PostDetail extends ConsumerWidget {
 
     Widget commentSection = Container(
       padding: const EdgeInsets.all(32),
-      child: const Center(
-        child: Text(
-          'Comments',
-          softWrap: true,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          )
-        ),
+      alignment: Alignment.centerLeft,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.grey.shade200,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    DateFormat.yMd().add_jm().format(DateTime.now()),
+                  ),
+                ]
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  'I found this around my house as well!',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        )
       ),
     );
+
+    void sendMessage() async {
+      if(messageController.text.isNotEmpty){
+        await chatService.sendMessage(
+          currentUserID,
+          messageController.text,
+        );
+      }
+      messageController.clear();
+    }
+
+    Widget buildMessageInput(){
+      return Row(
+        children: [
+          const SizedBox(width: 5),
+          CircleAvatar(
+            backgroundColor: Colors.blue,
+            child: IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.add,
+                size: 18,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 15,
+          ),
+          Expanded(
+            child: TypingField(
+              controller: messageController,
+              hintText: 'Write message...',
+              obscureText: false,
+            ),
+          ),
+          IconButton(
+              onPressed: sendMessage,
+              icon: const Icon(
+                Icons.send,
+                size: 18,
+                color: Colors.blue,
+              )
+          ),
+        ],
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -135,7 +209,21 @@ class PostDetail extends ConsumerWidget {
           ),
           titleSection,
           textSection,
+          const SizedBox(height: 10),
+          const Text(
+              'Comments',
+              textAlign: TextAlign.center,
+              softWrap: true,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              )
+          ),
+          const SizedBox(height: 10),
           commentSection,
+          const SizedBox(height: 70),
+          buildMessageInput(),
+          const SizedBox(height: 10),
         ],
       ),
     );
