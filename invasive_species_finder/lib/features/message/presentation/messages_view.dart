@@ -153,16 +153,6 @@ class _MessagesViewState extends State<MessagesView> {
                       firebaseAuth.currentUser!.uid)
                       ? MainAxisAlignment.end
                       : MainAxisAlignment.start,
-                  /*children: [
-                    Text(
-                      sendOrReceiver == "sender"
-                          ? senderName
-                          : receiverName,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ], */
                 ),
                 ChatBubble(message: data['message'], align: sendOrReceiver),
               ],
